@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <script type="text/javascript" src="build/react.js"></script>
+  <script type="text/javascript" src="build/react-dom.js"></script>
+  <script type="text/javascript" src="build/browser.min.js"></script>
+  <meta charset="uft-8"/>
+</head>
+<body>
+  <div id="example"></div>
+  <script type="text/babel">
+  /*组件的生命周期
+  Mounting:已插入真实DOM
+
+    componentWillMount()
+
+    componentDidMount()
+  Updating:正在被重新渲染
+
+    componentWillUpdate(object nextProps,object nextState)
+
+    componentDidUpdate(object prevProps,object prevState)
+  Unmounting:已移出真实DOM
+
+    componentWillUnmount()*/
+    var Hello = React.createClass({
+        getInitialState:function(){
+          return{
+            opacity:1.0
+          };
+        },
+        componentDidMount:function(){
+          this.timer = setInterval(function(){
+            var opacity=this.state.opacity;
+            opacity-=.05;
+            if(opacity<0.01){
+              opacity = 1.0;
+            }
+            this.setState({
+              opacity:opacity
+            });
+          }.bind(this),100);
+        },
+        render:function(){
+          return(
+              <div style={{opacity:this.state.opacity}}>
+                  hello {this.props.name}
+              </div>
+            );
+        }
+    });
+
+    ReactDOM.render(
+        <Hello name="wkw"/>,
+        document.body
+      );
+
+  </script>
+</body>
+</html>

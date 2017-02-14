@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="build/react.js"></script>
+	<script type="text/javascript" src="build/react-dom.js"></script>
+	<script type="text/javascript" src="build/browser.min.js"></script>
+	<meta charset="uft-8"/>
+</head>
+<body>
+	<div id="example"></div>
+	<script type="text/babel">
+	//用户再表单填入的内容，属于用户跟组件的互动，所以不能用this.props读取
+	 var Input = React.createClass({
+	 	getInitialState:function(){
+	 		return {value:"ahahahahah"};
+	 	},
+	 	handleChange:function(event){
+	 		this.setState({value:event.target.value});
+	 	},
+	 	render:function(){
+	 		var value=this.state.value;
+	 		return (
+	 			<div>
+	 				<input type="text" value={value} onChange={this.handleChange}/>
+	 				<p>{value}</p>
+	 			</div>
+	 			);
+	 	}
+	 });
+	 ReactDOM.render(
+	 		<Input />,
+	 		document.getElementById("example")
+	 	);
+
+	</script>
+</body>
+</html>

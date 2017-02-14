@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="build/react.js"></script>
+
+	<script type="text/javascript" src="build/react-dom.js"></script>
+
+	<script type="text/javascript" src="build/browser.min.js"></script>
+	<meta charset="utf-8"/>
+</head>
+<body>
+	<div id="example"></div>
+	<div id="example1"></div>
+	<div id="example2"></div>
+	<script type="text/babel">
+		ReactDOM.render(
+				<h1>Hello,Kevin!</h1>,
+				document.getElementById("example")	
+			);
+		//
+		var names=['蔡妙可','王开文','王梅'];
+		ReactDOM.render(
+				<div>
+				{
+					names.map(function(name){
+						return <div>hello,{name}!</div>
+					})
+				}
+				</div>,
+				document.getElementById("example1")
+			);
+
+		var arr=[
+			<h1>Hello everybody</h1>,
+			<h2>react is awesome</h2>,
+
+		];
+		ReactDOM.render(
+				<div>{arr}</div>,
+				document.getElementById("example2")
+			);
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="build/react.js"></script>
+	<script type="text/javascript" src="build/react-dom.js"></script>
+	<script type="text/javascript" src="build/browser.min.js"></script>
+	<meta charset="uft-8"/>
+</head>
+<body>
+	<div id="example"></div>
+	<script type="text/babel">
+	//从组件获取真实DOM的节点，ref属性 --DOM diff算法
+	var MyComponent = React.createClass({
+		handleClick:function(){
+			this.refs.myTextInput.focus();
+		},
+		render:function(){
+			return(
+					<div>
+						<input type="text" ref="myTextInput"/>
+					<input type="button" value="Focus the text input " onclick={this.handleClick}/>
+					</div>
+				);
+		}
+	});
+	ReactDOM.render(
+			<MyComponent/>,
+			document.getElementById("example")
+		);
+	</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="build/react.js"></script>
+	<script type="text/javascript" src="build/react-dom.js"></script>
+	<script type="text/javascript" src="build/browser.min.js"></script>
+	<meta charset="uft-8"/>
+</head>
+<body>
+	<div id="example"></div>
+	<script type="text/babel">
+	
+	var MyTitle=React.createClass({
+		//默认属性设置
+		getDefaultProps:function(){
+			return {
+				title:"gello worikld"
+			};
+		},
+		//PropTypes验证组件属性是否符合要求
+		propTypes:{
+			title:React.PropTypes.string.isRequired,
+		},
+
+		render:function(){
+			return <h1>{this.props.title}</h1>;
+		}
+	});
+	var data=123;
+	ReactDOM.render(
+			<MyTitle />,//default
+			document.body
+		);
+	ReactDOM.render(
+			<MyTitle title={data}/>,//验证属性
+			document.body
+		);
+	</script>
+</body>
+</html>
