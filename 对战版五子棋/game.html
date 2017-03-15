@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="style.css" rel=stylesheet type="text/css">
+<title>五子棋</title>
+</head>
+
+<body onload="initTable()" background="images/weiqi-002.jpg">
+	<table border=0	>
+    	<tr>
+       	  <td>
+          <img src="images/man.png"/><br>
+          <img src="images/women.png"/>
+          </td>
+            
+          <td>
+            <table align="center" border=0 class="container1" cellpadding="0" cellspacing="0">
+    	  <tr>
+	        	<td height="100" />
+	        </tr>
+	        <tr>
+	        	<td style="padding-left:8px;padding-top:20px;" valign="top" >
+	            	<table border=0 cellpadding="0" cellspacing="0" id="table1"></table>
+	            </td>
+	        </tr>
+	        <tr bgcolor="#999999">
+	        	<td align=center>轮到：<span id="info1"></span><br>
+	            <button onclick="resetTable()" style="width:100px;height:30px;">
+	            	重置
+	            </button>
+	            <button onclick="regretCell(this)" style="width:100px;height:30px;">	  悔棋
+	            </button>
+	        	</td>
+	         	</tr>
+	   		 </table>
+
+            
+           </td>
+            
+            <td>
+            	<div class="backContainer" >
+			<div class="container" >
+					<table height=100% width=100%  border=1 id="msgTable" >
+						
+					</table>
+				<span id="msg2" />	
+			</div>
+			
+			<div class="bottomContainer" >
+				<table>
+					<tr>
+						<td>
+						<span style="background-color:#FFF;padding:5px" >
+							<img src="demoapp/bqb/0.png" class="bq" onClick="bq('0')" />
+							<img src="demoapp/bqb/1.png" class="bq" onClick="bq('1')"  />
+							<img src="demoapp/bqb/2.png" class="bq" onClick="bq('2')"  />
+							<img src="demoapp/bqb/3.png" class="bq" onClick="bq('3')"  />
+							<img src="demoapp/bqb/4.png" class="bq" onClick="bq('4')"  />
+							<img src="demoapp/bqb/5.png" class="bq" onClick="bq('5')"  />
+						</span>
+							接收对象：<input type=text id="ip" value="127.0.0.1"/>
+						</td>
+						<td>
+						<button onClick="autoquery(this)">自动接收</button> 
+							
+						</td>
+					</tr>
+					<tr>
+						<td >
+							<input id="info" onKeyUp="if(event.keyCode==13)sendMsg()" />
+						</td>
+						<td>	
+							<button class="btn1" onClick="sendMsg()" ></button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+  
+            </td>
+        </tr>
+     
+    </table>
+   
+  
+  
+  
+<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

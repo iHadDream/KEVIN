@@ -1,0 +1,183 @@
+<html>
+	<head>
+		<title>
+			登录百度帐号
+		</title>
+	</head>
+	<body>
+		<style>
+		.loginBtn{
+			width:100%;height:40px;color:white;font-size:14px;font-weight:bold;
+			background-color:rgb(46, 130, 255);
+			border:none;
+			margin:10px 0px 10px 0px;
+		}
+		.loginIcon{
+			width:24px;height:24px;
+			
+			background-image:url("icon_446030a5.png");
+			background-repeat:no-repeat;
+			
+			margin-right:16px;
+			display:block;
+			
+		}
+		.inputLab{
+			width:20px;height:20px;
+			
+			background-image:url("icon_446030a5.png");
+			background-repeat:no-repeat;
+
+			display:block;
+		}
+		p{
+			border-style:solid;
+			border-width:1px;
+			border-color:ccc;
+			padding:5px 2px;
+			margin:25px 0px 10px 0px;
+		}
+		.inputBox{
+			border-color:red;
+			border-style:none;
+			
+			width:270px;
+			font-size:14px;
+			background-image:url("iptboxbg.png");
+			background-repeat:no-repeat;
+			
+		}
+		</style>
+		<table width=920 border=0 height=100% align=center style="font-family:Tahoma,Helvetica">
+			<tr>
+				<td height="128"  >
+					<img src="logo_pass_aed18747.png" />
+				</td>
+				<td/>
+			</tr>
+			<tr>
+				
+				<td/>
+				<td valign=bottom style="font-size:16px;font-weight:bold" colspan=3 height=50>
+					登录百度帐号
+				</td>
+			</tr>
+			<tr>
+				<td >
+					<img src="ad_7307b363.png" />
+				</td>
+				<td width=320 height=340>
+					<table width=320 border=0 height=100% align=center  style="font-size:12px;color:#666666;">
+						
+						<tr>
+							<td colspan=4 height=40 >
+								<p id="p1">
+								<table border=0>
+									<tr>
+										<td>
+											<div class="inputLab" style="background-position:0px -52px" id="lab1" />
+										</td>
+										<td>
+											<input type="text" class="inputBox"  style="background-position:0px 4px" onfocus="ifocus('lab1','p1');" onblur ="iblur('lab1','p1');" /> 
+										</td>
+									</tr>
+								</table>
+								</p>
+								<p id="p2">
+								<table>
+									<tr>
+										<td>
+											<div class="inputLab" style="background-position:-21px -52px" id="lab2" /> 
+										</td>
+										<td>
+											<input type="password" class="inputBox"  style="background-position:0px -12px" onfocus="ifocus('lab2','p2');" onblur ="iblur('lab2','p2');" />
+										</td>
+									</tr>
+								</table>
+								
+								</p>
+							</td>
+						</tr>
+						<tr >
+							<td width=10>	
+								<input type="checkbox"  style="margin-top:1px;padding:0px"  checked ></input>	 
+							</td>
+							<td>
+									下次自动登录   
+							</td>
+							<td align=right style="color:rgb(46,130,255)">
+									忘记密码? | 立即注册
+							</td>
+						</tr>
+						<tr>
+							<td colspan=3 height=60>
+								<button class="loginBtn">
+								登录
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<td colspan=3  valign=top style="padding-top:40px">
+								可以使用以下方式登录<br/>
+								<table>
+									<tr>
+										<td>
+											<div title="QQ帐号"  class="loginIcon" onMouseOver="mover(this);" onMouseout="mout(this);" /> 
+										</td>
+										<td>
+											<div title="新浪微博"  class="loginIcon" style="background-position:-25px 0px" onMouseOver="mover(this);" onMouseout="mout(this);" /> 
+										</td>
+										<td>
+											<div title="人人网"  class="loginIcon" style="background-position:-50px 0px" onMouseOver="mover(this);" onMouseout="mout(this);" />
+										</td>
+										<td>
+											<div title="短信登录"  class="loginIcon" style="background-position:-125px 0px" onMouseOver="mover(this);" onMouseout="mout(this);" />
+										</td>
+										<td>
+											<div  title="二维码登录" class="loginIcon" style="background-position:-150px 0px" onMouseOver="mover(this);" onMouseout="mout(this);" />
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						
+					</table>	 
+				</td>
+			</tr>
+			<tr  >
+				<td height="*" align=center colspan=2 valign=bottom style="font-size:12px;color:rgb(122,119,200);">
+					2014&nbsp;&copyBaidu
+				</td>
+			</tr>
+		</table>
+		<script>
+			function mover(emt){
+				var tmp = emt.style.backgroundPositionY.replace('px','');
+				tmp = Number(tmp)-24;
+				emt.style.backgroundPositionY = tmp;
+			}
+			function mout(emt){
+				var tmp = emt.style.backgroundPositionY.replace('px','');
+				tmp = Number(tmp)+24;
+				emt.style.backgroundPositionY = tmp;
+				
+			}
+			function ifocus(labid,pid){
+				var emt = document.getElementById(labid);
+				var tmp = emt.style.backgroundPositionY.replace('px','');
+				tmp = Number(tmp)-21;
+				emt.style.backgroundPositionY = tmp;
+				
+				document.getElementById(pid).style.borderColor = 'rgb(72,142,231)';
+			}
+			function iblur(labid,pid){
+				var emt = document.getElementById(labid);
+				var tmp = emt.style.backgroundPositionY.replace('px','');
+				tmp = Number(tmp)+21;
+				emt.style.backgroundPositionY = tmp;
+
+				document.getElementById(pid).style.borderColor = 'ccc';
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,35 @@
+﻿<html>
+	<body>
+		
+		<table width=500px height=400px style="background-color:#CCC" border=1 id="container">
+			<tr><td></td></tr>
+		</table>
+		<table>
+			<tr>
+				<td>
+					<input type="text" id="info" ></input><button onclick = "send()">发送</button>
+				</td>
+			</tr>
+		</table>
+		<script>
+			function send(){
+				var info = byId('info');	
+				var container = byId('container');	
+				container.innerHTML = container.innerHTML + '<tr><td height=10>' + info.value + '</td></tr>';
+				//var a = document.getElementById('info');
+				/*
+					1.建立通信对象
+					2.打开目标链接
+					3.发送消息内容
+					4.编写回调函数
+				*/
+			}
+			
+			function byId(id){
+				var tmp = document.getElementById(id);
+				return tmp;
+			}
+			
+		</script>
+	</body>
+</html>
