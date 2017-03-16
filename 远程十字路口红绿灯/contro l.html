@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>远程控制界面</title>
+</head>
+<style type="text/css">
+body {
+				
+					background-repeat: no-repeat;
+					background-attachment:fixed;
+					background-color:#CC9999;
+					;
+					
+				
+				}
+</style>
+	<body >
+  <table width="383" height="319" align="center">
+				<tr>
+					<td width="252" height="">
+						<font color="black">远程操纵台</font>
+			
+	<tr >	
+		<td  colspan=3>
+			南北向红灯时长：<input id="nb_redTime" type=text value=10>
+			
+		</td>
+	</tr>
+	<tr >
+		<td  colspan=3>
+			南北向绿灯时长：<input id="nb_greenTime" type=text value=8>	
+		</td>
+	</tr>
+	<tr >	
+		<td  colspan=3>
+			东西向红灯时长：<input id="dx_redTime" type=text value=13>
+			
+		</td>
+	</tr>
+	
+	<tr center>
+		<td  colspan=3>
+			东西向绿灯时长：<input id="dx_greenTime" type=text value=5>	
+		</td>
+	</tr>
+		<td  colspan=3>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;黄灯时长：<input id="yellowTime" type=text value=3 disabled>
+		</td>
+	</tr>
+	 <tr>
+                	<td>受控端IP:<input type="text" id="ip" value="127.0.0.1"></input></td>
+    </tr>
+	<tr >
+		<td  colspan=3>	
+			<button id="btn_start" onClick="cstart();start()">开始</button>
+			<button id="btn_pause" onClick="cpause()" disabled>暂停/恢复</button>
+			<button id="btn_end" onClick="cend()" disabled>结束</button>
+	    </td>
+	</tr>
+	<tr >
+		<td  colspan=3 style="padding:0 100px;">
+			当前状态:<span id="status">结束</span>
+		</td>
+	</tr>
+	<tr >
+		<td  colspan=3 style="padding:0 100px;">
+			计数时长：<span id="times"></span>
+		</td>
+	</tr>
+	</table>	
+	</body>
+	<script>
+		function cstart(){
+				
+				xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = ready;
+				//xhr.open("post","http://222.27.106.186:8080/demoapp/demo1.jsp" ,true);
+				xhr.open("post","demo3_p2p.jsp" ,true);
+				xhr.setRequestHeader( "Content-Type" , "application/x-www-form-urlencoded" );
+				xhr.send('info=' +'start' + '&ip=' +  byIdValue('ip') ) ;
+				
+		}
+		function cpause(){
+				pause();
+				xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = ready;
+				//xhr.open("post","http://222.27.106.209:8080/demoapp/demo1.jsp" ,true);
+				xhr.open("post","demo3_p2p.jsp" ,true);
+				xhr.setRequestHeader( "Content-Type" , "application/x-www-form-urlencoded" );
+				xhr.send('info=' +'pause' + '&ip=' +  byIdValue('ip') ) ;
+				
+		}
+		function cstop(){
+				stop();
+				xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = ready;
+				//xhr.open("post","http://222.27.106.209:8080/demoapp/demo1.jsp" ,true);
+				xhr.open("post","demo3_p2p.jsp" ,true);
+				xhr.setRequestHeader( "Content-Type" , "application/x-www-form-urlencoded" );
+				xhr.send('info=' +'stop' + '&ip=' +  byIdValue('ip') ) ;
+				
+		}
+		function ready(){
+				var xhr = this;
+				if (xhr.readyState==4){// 4 = "loaded"
+					if (xhr.status==200){// 200 = OK
+						//byId("container").innerHTML+="<tr><td align=left>服务端:" + xhr.responseText + "</td></tr>";
+						var msglist = xhr.responseXML.getElementsByTagName("msg");
+						for(var i=0;i<msglist.length;i++){
+							var msg = msglist[i];
+							var fromip = msg.childNodes[0].textContent;
+							var time = msg.childNodes[1].textContent;
+							var info = msg.childNodes[2].textContent;
+						}
+					}					
+				}
+			}
+			function byId(id){
+				var tmp = document.getElementById(id);
+				return tmp;
+			}
+			function byIdValue(id){
+				var e = byId(id);
+				return e.value;
+			}
+	</script>
+ <script>
+      var inter_id=null;
+      var times=0;
+      var nb_redTime=0;
+      var nb_greenTime=0;
+      var dx_redTime=0;
+      var dx_greenTime=0;
+      var yellowTime=3;
+      var isPause=false;
+      
+      function start(){
+          nb_redTime=document.getElementById("nb_redTime").value;
+          nb_greenTime=document.getElementById("nb_greenTime").value;
+          dx_redTime=document.getElementById("dx_redTime").value;
+          dx_greenTime=document.getElementById("dx_greenTime").value;
+          yellowTime=document.getElementById("yellowTime").value;
+          times=nb_greenTime;
+          document.getElementById("status").innerHTML="开始";
+          document.getElementById("times").innerHTML=times;
+          inter_id=window.setInterval("running()",1000);
+          document.getElementById("btn_start").disabled=true;
+          document.getElementById("btn_pause").disabled=false;
+          document.getElementById("btn_end").disabled=false;
+      }
+      function pause(){
+        if(isPause==false){
+          isPause=true;
+        }
+        else{
+          isPause=false;
+        }
+      }
+      
+      function running(){
+          if(isPause){
+              return;
+          }
+          document.getElementById("times").innerHTML=times;
+          if(times==0)
+          {
+              nb_yellowOn();
+              
+          }
+          if(times<=0-yellowTime)
+          {
+              nb_redOn();
+              
+          }
+          if(times<=0-yellowTime-2)
+          {
+              dx_greenOn();
+          
+          }
+          
+          if(times<=0-yellowTime-2-dx_greenTime)
+          
+          {
+              
+              dx_yellowOn();
+              
+          }
+          if(times<=0-yellowTime-nb_redTime)
+          
+          {
+              
+                  end();
+          }
+          times--;
+      }
+      
+      function stop()
+      {
+         
+          document.getElementById("status").innerHTML="结束";
+          window.clearInterval(inter_id);
+          document.getElementById("btn_start").disabled=false;
+          document.getElementById("btn_pause").disabled=true;
+          document.getElementById("btn_end").disabled=true;
+          document.getElementById("times").innerHTML=0;
+          isPause=false;
+      }
+     
+  </script>
+</html>

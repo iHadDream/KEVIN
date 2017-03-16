@@ -1,0 +1,312 @@
+﻿<html>
+	<head><title>红绿灯实验1</title></head>
+		<body onLoad="auto_query()">
+			<style>	
+				body {
+					background-image:url(images/background.jpg);
+					background-repeat: no-repeat;
+					background-attachment:fixed;
+					background-color:#FFF;
+					
+				}
+				.light{
+					width:100px;
+					height:100px;		
+					background-image:url('images/lightbox.gif');
+				}
+				.redoff{
+					background-color:#440000;
+				}
+				.redon{
+					background-color:#FF0000;
+				}
+				.greenoff{
+					background-color:#004400;
+				}
+				.greenon{
+					background-color:#00FF00;
+				}
+				.yellowoff{
+					background-color:#444400;
+				}
+				.yellowon{
+					background-color:#FFFF00;
+				}
+          </style>
+
+<table border=0 align=left>
+	<tr height="250"></tr>
+    <tr>
+        <td>
+			<div id="dx1_redLight" class="light redoff"/>
+		</td>
+	
+		<td>
+			<div id="dx1_yellowLight" class="light yellowoff"/>
+		</td>
+	
+		<td>
+			<div id="dx1_greenLight" class="light greenoff"/>
+		</td>
+	</tr>
+    <tr height="250"></tr>
+    <tr>
+		<td>
+			<div id="nb1_redLight" class="light redoff"/>
+		</td>
+	
+		<td>
+			<div id="nb1_yellowLight" class="light yellowoff"/>
+		</td>
+	
+		<td>
+			<div id="nb1_greenLight" class="light greenoff"/>
+		</td>
+	</tr> 
+</table>
+<table border=0   style="color:#CFF ;font-weight:bold;">
+	<tr height=200>
+        <td rowspan="11" width=200px></td>
+    	<td width=350></td>
+        <td>
+			<div id="nb2_redLight" class="light redoff"/>
+		</td>
+	
+		<td>
+			<div id="nb2_yellowLight" class="light yellowoff"/>
+		</td>
+	
+		<td>
+			<div id="nb2_greenLight" class="light greenoff"/>
+		</td>
+	</tr> 	
+
+</table>
+<table border=1 align=right>
+	<tr >
+		<td height="100px"></td>
+        <td>
+			<div id="dx2_redLight" class="light redoff"/>
+		</td>
+	
+		<td>
+			<div id="dx2_yellowLight" class="light yellowoff"/>
+		</td>
+	
+		<td>
+			<div id="dx2_greenLight" class="light greenoff"/>
+		</td>
+	</tr>
+</table>
+  <script>
+  			//通信-------------------------------------------------------------------------------
+			function send(){
+				var xhr = null;
+				var info = byId('info');	
+				span1.scrollIntoView();
+				/*
+					1.建立通信对象
+					2.打开目标链接
+					3.发送消息内容
+					4.编写回调函数
+				*/
+				xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = ready;
+				//xhr.open("post","http://222.27.106.209:8080/demoapp/demo1.jsp" ,true);
+				xhr.open("post","demo3_p2p.jsp" ,true);
+				xhr.setRequestHeader( "Content-Type" , "application/x-www-form-urlencoded" );
+				xhr.send('info=' +  byIdValue('info') + '&ip=' +  byIdValue('ip') ) ;
+			}
+			function auto_query(){
+				 var tmp=window.setInterval("query()",1000);
+				
+				}
+			
+			
+			function query(){
+				var xhr = new XMLHttpRequest();//定义通信对象
+				xhr.onreadystatechange = ready;
+				xhr.open("post","http://127.0.0.1:8080/demoapp/demo3_p2p.jsp" ,true);
+				xhr.setRequestHeader( "Content-Type" , "application/x-www-form-urlencoded" );
+				xhr.send('info=query' ) ;
+			}
+			
+			function ready(){
+				var xhr = this;
+				if (xhr.readyState==4){// 4 = "loaded"
+					if (xhr.status==200){// 200 = OK
+						//byId("container").innerHTML+="<tr><td align=left>服务端:" + xhr.responseText + "</td></tr>";
+						var msglist = xhr.responseXML.getElementsByTagName("msg");
+						for(var i=0;i<msglist.length;i++){
+							var msg = msglist[i];
+							var fromip = msg.childNodes[0].textContent;
+							var time = msg.childNodes[1].textContent;
+							var info = msg.childNodes[2].textContent;
+							if(info=="start") start();
+							if(info=="pause") pause();
+							if(info=="stop") stop();
+							
+							}
+							
+						}
+						
+					}					
+				}
+			
+			function byId(id){
+				var tmp = document.getElementById(id);
+				return tmp;
+			}
+			function byIdValue(id){
+				var e = byId(id);
+				return e.value;
+			}
+			
+		
+		
+	//通信-----------------------------------------------------------------------------------------
+	
+  
+  </script> 
+  <script>
+      var inter_id=null;
+      var times=0;
+      var nb_redTime=0;
+      var nb_greenTime=0;
+      var dx_redTime=0;
+      var dx_greenTime=0;
+      var yellowTime=3;
+      var isPause=false;
+      
+      function start(){
+    
+          nb_greenOn();
+          dx_redOn();
+         
+      }
+      function pause(){
+        if(isPause==false){
+          isPause=true;
+        }
+        else{
+          isPause=false;
+        }
+      }
+      
+      function running(){
+          if(isPause){
+              return;
+          }
+          document.getElementById("times").innerHTML=times;
+          if(times==0)
+          {
+              nb_yellowOn();
+              
+          }
+          if(times<=0-yellowTime)
+          {
+              nb_redOn();
+              
+          }
+          if(times<=0-yellowTime-2)
+          {
+              dx_greenOn();
+          
+          }
+          
+          if(times<=0-yellowTime-2-dx_greenTime)
+          
+          {
+              
+              dx_yellowOn();
+              
+          }
+          if(times<=0-yellowTime-nb_redTime)
+          
+          {
+              
+                  end();
+          }
+          times--;
+      }
+      
+      function stop()
+      {
+          nb_allOff();
+          dx_allOff();
+          
+          document.getElementById("status").innerHTML="结束";
+          window.clearInterval(inter_id);
+          document.getElementById("btn_start").disabled=false;
+          document.getElementById("btn_pause").disabled=true;
+          document.getElementById("btn_end").disabled=true;
+          document.getElementById("times").innerHTML=0;
+          isPause=false;
+      }
+      
+      function nb_redOn(){
+          nb_allOff();
+          //红的亮
+          document.getElementById('nb1_redLight').className = "light redon";
+          document.getElementById('nb2_redLight').className = "light redon";
+      }
+      
+          function nb_yellowOn(){
+          nb_allOff();
+          //黄的亮
+          document.getElementById('nb1_yellowLight').className = "light yellowon";
+          document.getElementById('nb2_yellowLight').className = "light yellowon";
+      }
+      
+          function nb_greenOn(){
+          nb_allOff();
+          
+          //绿的亮
+          document.getElementById('nb1_greenLight').className = "light greenon";
+          document.getElementById('nb2_greenLight').className = "light greenon";
+      }
+      
+      
+      
+      function dx_redOn(){
+          dx_allOff();
+          //红的亮
+          document.getElementById('dx1_redLight').className = "light redon";
+          document.getElementById('dx2_redLight').className = "light redon";
+      }
+      
+          function dx_yellowOn(){
+          dx_allOff();
+          //黄的亮
+          document.getElementById('dx1_yellowLight').className = "light yellowon";
+          document.getElementById('dx2_yellowLight').className = "light yellowon";
+      }
+      
+          function dx_greenOn(){
+          dx_allOff();
+          
+          //绿的亮
+          document.getElementById('dx1_greenLight').className = "light greenon";
+          document.getElementById('dx2_greenLight').className = "light greenon";
+      }
+      function nb_allOff(){
+          //默认状态灯全灭
+          document.getElementById('nb1_redLight').className = "light redoff";
+          document.getElementById('nb1_yellowLight').className = "light yellowoff";
+          document.getElementById('nb1_greenLight').className = "light greenoff";
+          document.getElementById('nb2_redLight').className = "light redoff";
+          document.getElementById('nb2_yellowLight').className = "light yellowoff";
+          document.getElementById('nb2_greenLight').className = "light greenoff";
+      }
+      function dx_allOff(){
+          //默认状态灯全灭
+          document.getElementById('dx1_redLight').className = "light redoff";
+          document.getElementById('dx1_yellowLight').className = "light yellowoff";
+          document.getElementById('dx1_greenLight').className = "light greenoff";
+          document.getElementById('dx2_redLight').className = "light redoff";
+          document.getElementById('dx2_yellowLight').className = "light yellowoff";
+          document.getElementById('dx2_greenLight').className = "light greenoff";
+      }
+  </script>
+ </body>
+</html>
